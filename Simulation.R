@@ -51,6 +51,7 @@ sim<-function(landscape=NA, disp=1, predation=1,propEaten=c(.5,.5,.5,.5),
 			arth[bb,]<-arth[bb,]-nDisp ## subtract dispersers
 			d<-sqrt((landscape$x[bb]-landscape$x[-bb])^2+(landscape$y[bb]-landscape$y[-bb])^2)
 			di<-max(d)-d ## closeness
+			di<-dnorm(di,mean=0,sd=disp) ## convert to normal kernel
 			pp<-di*landscape$volume[-bb]
 			bn<-(1:Nb)[-bb]
 			for(j in 1:4){ ## four types
@@ -73,6 +74,7 @@ sim<-function(landscape=NA, disp=1, predation=1,propEaten=c(.5,.5,.5,.5),
 			arth[bb,]<-arth[bb,]-nDisp ## subtract dispersers
 			d<-sqrt((landscape$x[bb]-landscape$x[-bb])^2+(landscape$y[bb]-landscape$y[-bb])^2)
 			di<-max(d)-d ## closeness
+			di<-dnorm(di,mean=0,sd=disp) ## convert to normal kernel
 			pp<-di*landscape$volume[-bb]
 			bn<-(1:Nb)[-bb]
 			for(j in 1:4){ ## four types
