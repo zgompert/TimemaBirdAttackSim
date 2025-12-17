@@ -10,8 +10,8 @@
 ## landscape = dataframe with one row per bush and the following named columns: x, y, volume, mal, Ntd, Ntn, Nnd, Nnn. x and y are the coordinates, volume is volume, mal is proportion maladapted Timema, and the N variables are the number of tasty (t), nasty (n), dispersive (d) and non-dispersive (n) in their various combinations
 ## disp = standard deviation of the normal kernel
 ## predation = predation option 1, 2 or 3, as define above
-## propEaten = rule, proportion eaten for each type, in same order given above (tn, td, nd, nn)
-## propDisp = rule, proportion dispersing for each type, in same order given above (tn, td, nd, nn)
+## propEaten = rule, proportion eaten for each type, in same order given above (td, tn, nd, nn)
+## propDisp = rule, proportion dispersing for each type, in same order given above (td, tn, nd, nn)
 ## dispFirst = boolean, dispersal before predation
 ## steps = number of bird attacks to simulate (one at a time)
 ## psteps = boolean print each step
