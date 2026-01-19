@@ -17,9 +17,16 @@
 ## psteps = boolean print each step
 sim<-function(landscape=NA, disp=1, predation=1,propEaten=c(.5,.5,.5,.5),
 	propDisp=c(.5,.5,.5,.5), dispFirst=TRUE,steps=1,psteps=TRUE){
-		
+	
+	## plotting colors, hard-coded at the moment	
+	cs<-c("#B2182B","#D6604D","#F4A582","#FDDBC7","#F7F7F7",
+	"#D1E5F0","#92C5DE","#4393C3","#2166AC")	
+	bnds<-c(-1e5,-40,-20,-10,-5,5,10,20,40,1e5) ## bounds for colors, also hard-coded
+	
+	## reformat
 	Nb<-dim(landscape)[1]
 	arth<-as.matrix(cbind(landscape$Ntd,landscape$Ntn,landscape$Nnd,landscape$Nnn))
+	arth0<-arth## save initial values for plotting gradient
 	if(psteps==TRUE){
 		typ=c("tasty-disp","tasty-non-disp","nasty-disp","nasty-non-disp")
 		par(mfrow=c(2,2))
@@ -88,7 +95,13 @@ sim<-function(landscape=NA, disp=1, predation=1,propEaten=c(.5,.5,.5,.5),
 			Sys.sleep(1)
 			par(mfrow=c(2,2))
 			for(j in 1:4){
-				plot(landscape$x,landscape$y,pch=19,col="gray80",
+				darth<-arth[,j]-arth0[,j]
+				cat(darth,"\n")
+				css<-rep(cs[1],length(darth))
+				for(a in 2:(length(bnds)-1)){
+					css[darth >= bnds[a]]<-cs[a]
+				}
+				plot(landscape$x,landscape$y,pch=19,col=css,
 				cex=landscape$volume,xlab="x",ylab="y")
 				text(landscape$x,landscape$y,arth[,j])
 				title(main=typ[j])
