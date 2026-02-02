@@ -2,14 +2,15 @@
 ## four types of arthropods are considered: tasty+dispersive, tasty+non-dispersive, nasty+dispersive, nasty+non-dispersive; they are always given in that order
 ## the landscape contains a series of bushes/patches, each with x-y coordinations and a volume
 ## each bush has a degree of maladptation (0-1), this is constant for a given simulation (the Timema population does not evolve)
-## predation is proportional to volume (option 1), volume + maladaptation (option 2), or volume + maladptation + arthropod density (option 3)
+## predation is proportional to volume (option 1), volume + maladaptation (option 2),  volume + maladptation + arthropod density (option 3)
+## maladaptation only (option 4), maladptation + arthropod density (option 5), or arthropod density only (option 6)
 ## each arthropod group gets a rule that defines the proportion of arthrpods eaten, the proportion that are not eaten that disperse
 ## there is also an option for whether dispersal or predation happens first
 ## dispersal depends on a normal kernel density with a SD (bigger SD means more dispersal on average, scale is relative to the x-y coordinate system)
 
 ## landscape = dataframe with one row per bush and the following named columns: x, y, volume, mal, Ntd, Ntn, Nnd, Nnn. x and y are the coordinates, volume is volume, mal is proportion maladapted Timema, and the N variables are the number of tasty (t), nasty (n), dispersive (d) and non-dispersive (n) in their various combinations
 ## disp = standard deviation of the normal kernel
-## predation = predation option 1, 2 or 3, as define above
+## predation = predation option 1-5, as defined above
 ## propEaten = rule, proportion eaten for each type, in same order given above (td, tn, nd, nn)
 ## propDisp = rule, proportion dispersing for each type, in same order given above (td, tn, nd, nn)
 ## dispFirst = boolean, dispersal before predation
@@ -45,8 +46,14 @@ sim<-function(landscape=NA, disp=1, predation=1,propEaten=c(.5,.5,.5,.5),
 			pp<-landscape$volume
 		} else if(predation==2){ ## volume + maladaptation
 			pp<-landscape$volume * landscape$mal
-		} else if (predation==3){ ## volume + mal + arth
-			landscape$volume * landscape$mal * apply(arth,1,mean)
+		} else if(predation==3){ ## volume + mal + arth
+			pp<-landscape$volume * landscape$mal * apply(arth,1,mean)
+		} else if(predation==4){ ## maladaptation
+			pp<-landscape$mal
+		} else if(predation==5){ # mal + arth
+			pp<-landscape$mal * apply(arth,1,mean)
+		} else if(predation==6){ # arth only
+			pp<-apply(arth,1,mean)
 		} else{
 			print("Predation type not defined")
 		}
